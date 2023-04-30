@@ -27,7 +27,7 @@ const Sidebar = () => {
         <SidebarRow Icon = {ComputerDesktopIcon} title = "Desktop" />
         <SidebarRow Icon = {CalendarIcon} title="Calendar" />
         <SidebarRow Icon = {ClockIcon} title="Clock" />
-        <SidebarRow Icon = {ChevronDownIcon} title ="ChevronDown" />
+        <SidebarRow Icon = {ChevronDownIcon} title ="More" />
       
     </div>
   )

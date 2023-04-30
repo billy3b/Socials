@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import Image from "next/image";
 import HeaderIcon from "./HeaderIcon";
@@ -24,6 +26,7 @@ import { signOut } from "next-auth/react";
 const Header = () => {
 
   const session = useSession();
+  const source = session?.data?.user?.image;
 
   return (
     <div className="flex sticky top-0 z-50 bg-white lg:px-5 shadow-md items-center justify-start">
@@ -48,14 +51,18 @@ const Header = () => {
       {/* right */}
       <div className="flex items-center justify-end sm: space-x-2">  
       {/* profilepic */}
-      <Image 
-        src={session?.data?.user?.image}
-        onClick={signOut}
-        alt="Profile"
-        width={40}
-        height={40}
-      />
-        <p className="whitespace-nowrap font-semibold pr-3">{session?.data?.user?.name}</p>
+      
+      <Image src={source}
+      width={40}
+      height={40}
+      alt="profilepic" 
+      className="rounded-full"
+      onClick={signOut} /> 
+
+        <p className="whitespace-nowrap font-semibold pr-3 cursor-pointer"
+          
+        >{session?.data?.user?.name}
+        </p>
 
         <BellIcon className="icon" />
         <ChatBubbleLeftIcon className="icon"/>
