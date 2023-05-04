@@ -5,7 +5,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol:'https',
-        hostname:"scontent-bom1-1.xx.fbcdn.net",
+        hostname:"scontent.fbom57-1.fna.fbcdn.net",
+      },
+      {
+        protocol:'https',
+        hostname:"scontent.fbom19-1.fna.fbcdn.net",
       },
       {
         protocol: 'https',
