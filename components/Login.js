@@ -11,7 +11,6 @@ const Login = () => {
         > 
         Login
         </h1>
-      
     </div>
   )
 }
