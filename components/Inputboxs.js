@@ -6,7 +6,7 @@ import {CameraIcon, VideoCameraIcon} from "@heroicons/react/24/outline";
 import { useRef } from 'react';
 import {  addDoc, collection, serverTimestamp,} from "firebase/firestore";
 import { db, storage } from '../firebase';
-import { ref, getDownloadURL,uploadString  } from "firebase/storage";
+import { ref, getDownloadURL,uploadBytes  } from "firebase/storage";
 import HeaderIcon from './HeaderIcon';
 
 const Inputboxs = () => {
@@ -16,9 +16,10 @@ const Inputboxs = () => {
   const filePickerRef = useRef(null);
   const [ImageToPost, setImageToPost] = useState(null);
  
-
+  
   const sendPost = (event) => {
     event.preventDefault();
+    const ImagepostRef = ref(storage,'/posts');
     if(!inputRef.current.value) return;
     try{  
     addDoc(collection(db, 'posts'), {
@@ -32,35 +33,9 @@ const Inputboxs = () => {
   .then((doc)=>{
     if(ImageToPost){
       const storageRef = ref(storage, `posts/${doc.id}`);
-      const uploadTask = uploadString(storageRef,ImageToPost,'data_url');
-
-      uploadTask.on('state_changed', null, (error) => {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case 'storage/unauthorized':
-            // User doesn't have permission to access the object
-            break;
-          case 'storage/canceled':
-            // User canceled the upload
-            break;
-    
-          // ...
-    
-          case 'storage/unknown':
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-        }
-      }, 
-       ()=>{
-        //when the upload completes
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        // ref('posts').child(doc.id).getDownloadURL().then(url => {
-          setDoc(doc(db,'posts',doc.id))({
-            postImage:downloadURL,
-          },{merge:true})
-        })
-      });
+      uploadBytes(storageRef, ImageToPost).then((response) =>{
+        alert("response added successfully");
+      })
     }
   })
   
