@@ -42,7 +42,7 @@ try {
         {/* Feed */}
         <Feed />
         {/* Widgets */}
-        <Widgets />
+        {/* <Widgets /> */}
       </main>
     </div>
   )

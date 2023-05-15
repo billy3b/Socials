@@ -2,10 +2,9 @@ import Image from 'next/image'
 import React from 'react'
 import {HandThumbUpIcon, ChatBubbleOvalLeftIcon, ShareIcon} from "@heroicons/react/24/outline";
 
-
 const Post = ({name,message,timestamp,image,postImage }) => {
   return (
-    <div className='flex flex-col overflow-scroll'>
+    <div className='flex flex-col h-full w-full'>
       <div className='bg-white p-5 mt-5 rounded-t-2xl shadow-sm'>
         <div className='flex items-center space-x-2'>
           <div>
