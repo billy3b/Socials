@@ -14,7 +14,7 @@ const Posts = () => {
 
     );
   return (
-    <div className='max-h-full overflow-y-auto'>
+    <div>
       {realtimePosts?.docs.map(post => (
         <Post 
             key={post.id}
