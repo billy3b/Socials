@@ -67,7 +67,7 @@ const Inputboxs = () => {
   }
 
   return (
-    <div className='mt-6 bg-white sm:flex rounded-2xl font-medium shadow-lg text-gray-500'>
+    <div className='mt-6 mb-5 bg-white sm:flex rounded-2xl font-medium shadow-lg text-gray-500'>
       <div className='flex p-4 mt-2 items-center'>
         <HeaderIcon src={session?.data?.user?.image}
           className="rounded-full"
