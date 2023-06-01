@@ -6,7 +6,7 @@ import {CameraIcon, VideoCameraIcon} from "@heroicons/react/24/outline";
 import { useRef } from 'react';
 import { setDoc ,addDoc, collection, serverTimestamp,doc} from "firebase/firestore";
 import { db, storage } from '../firebase';
-import { ref, getDownloadURL,uploadBytes, listAll  } from "firebase/storage";
+import { ref, getDownloadURL, uploadString  } from "firebase/storage";
 import HeaderIcon from './HeaderIcon';
 
 const Inputboxs = () => {
@@ -14,9 +14,7 @@ const Inputboxs = () => {
   const session = useSession();
   const inputRef = useRef(null);
   const filePickerRef = useRef(null);
-  const [ImageToPost, setImageToPost] = useState(null);
-  const imagesListRef = ref(storage, "posts/");
-  
+  const [ImageToPost, setImageToPost] = useState(null); 
 
   const sendPost = (event) => {
     event.preventDefault();
@@ -34,12 +32,9 @@ const Inputboxs = () => {
     const postId = docRef.id;
     if(ImageToPost){
       const storageRef = ref(storage, `posts/${postId}`);
-  
-      uploadBytes(storageRef, ImageToPost).then((snapshot) =>{
-        console.log("snapshot", snapshot);
+      const uploadTask = uploadString(storageRef, ImageToPost, 'data_url');
+      uploadTask.then((snapshot) =>{
         getDownloadURL(snapshot.ref).then((url) =>{
-          console.log(snapshot.ref);
-          console.log("url", url);
           setDoc(doc(db, 'posts', postId),{
             postImage:url,
           },{ merge: true });
@@ -77,7 +72,7 @@ const Inputboxs = () => {
         <HeaderIcon src={session?.data?.user?.image}
           className="rounded-full"
           alt="profile-pic" />
-        <form className='flex flex-1'>
+        <form className='flex flex-1 flex-grow'>
           <input type="text" placeholder={`How do you feel today,${session?.data?.user?.name}`}
             ref={inputRef}
             className='rounded-full h-12 bg-gray-200 px-5 focus:outline-none flex-grow w-full ' />
