@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { FaceSmileIcon } from '@heroicons/react/24/solid';
 import {CameraIcon, VideoCameraIcon} from "@heroicons/react/24/outline";
 import { useRef } from 'react';
-import {  addDoc, collection, serverTimestamp,} from "firebase/firestore";
+import { setDoc ,addDoc, collection, serverTimestamp,doc} from "firebase/firestore";
 import { db, storage } from '../firebase';
-import { ref, getDownloadURL,uploadBytes  } from "firebase/storage";
+import { ref, getDownloadURL, uploadString  } from "firebase/storage";
 import HeaderIcon from './HeaderIcon';
 
 const Inputboxs = () => {
@@ -14,12 +14,10 @@ const Inputboxs = () => {
   const session = useSession();
   const inputRef = useRef(null);
   const filePickerRef = useRef(null);
-  const [ImageToPost, setImageToPost] = useState(null);
- 
-  
+  const [ImageToPost, setImageToPost] = useState(null); 
+
   const sendPost = (event) => {
     event.preventDefault();
-    const ImagepostRef = ref(storage,'/posts');
     if(!inputRef.current.value) return;
     try{  
     addDoc(collection(db, 'posts'), {
@@ -30,16 +28,23 @@ const Inputboxs = () => {
       timestamp:serverTimestamp()
   })
   
-  .then((doc)=>{
+  .then((docRef)=>{
+    const postId = docRef.id;
     if(ImageToPost){
-      const storageRef = ref(storage, `posts/${doc.id}`);
-      uploadBytes(storageRef, ImageToPost).then((response) =>{
-        alert("response added successfully");
+      const storageRef = ref(storage, `posts/${postId}`);
+      const uploadTask = uploadString(storageRef, ImageToPost, 'data_url');
+      uploadTask.then((snapshot) =>{
+        getDownloadURL(snapshot.ref).then((url) =>{
+          setDoc(doc(db, 'posts', postId),{
+            postImage:url,
+          },{ merge: true });
+        })
       })
     }
   })
   
   inputRef.current.value=" ";
+  removeImage();
   
 } catch(e){
   console.log(e);
@@ -67,7 +72,7 @@ const Inputboxs = () => {
         <HeaderIcon src={session?.data?.user?.image}
           className="rounded-full"
           alt="profile-pic" />
-        <form className='flex flex-1'>
+        <form className='flex flex-1 flex-grow'>
           <input type="text" placeholder={`How do you feel today,${session?.data?.user?.name}`}
             ref={inputRef}
             className='rounded-full h-12 bg-gray-200 px-5 focus:outline-none flex-grow w-full ' />

@@ -23,7 +23,7 @@ const Posts = () => {
             email={post.data().email}
             timestamp={post.data().timestamp}
             image={post.data().image}
-            postImage={post.data().image}
+            postImage={post.data().postImage}
             />
       ))
     }

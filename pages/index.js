@@ -5,6 +5,7 @@ import Login from '../components/Login'
 import { useSession,} from "next-auth/react"
 import Sidebar from '../components/Sidebar.js'
 import Feed from '../components/Feed.js'
+import Widgets from '../components/Widgets'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -41,6 +42,7 @@ try {
         {/* Feed */}
         <Feed />
         {/* Widgets */}
+        <Widgets />
       </main>
     </div>
   )

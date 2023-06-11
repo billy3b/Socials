@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react";
-import Image from "next/image";
 import { useSession,} from "next-auth/react"
 import HeaderIcon from "./HeaderIcon";
 
@@ -15,10 +14,8 @@ import {
 } from "@heroicons/react/24/solid";
 
 import {
-  FlagIcon,
   MagnifyingGlassCircleIcon,
   PlayIcon,
-  ShoppingCartIcon,
   FireIcon
 } from "@heroicons/react/24/outline";
 
@@ -41,10 +38,8 @@ const Header = () => {
       {/* center */}
       <div className="flex justify-center flex-grow">
         <div className="flex space-x-6 md: space-x-2">
-          <HeaderIcon active icons={HomeIcon}/>
-          <HeaderIcon icons={FlagIcon}/>
+          <HeaderIcon icons={HomeIcon}/>
           <HeaderIcon icons={PlayIcon}/>
-          <HeaderIcon icons={ShoppingCartIcon}/>
           <HeaderIcon icons={UserGroupIcon}/>
         </div>
       </div>
